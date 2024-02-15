@@ -9,7 +9,7 @@
             MyBatis3Simple: 生成的是基础版，只有基本的增删改查。
             MyBatis3: 生成的是增强版，除了基本的增删改查之外还有复杂的增删改查。
     -->
-    <context id="DB2Tables" targetRuntime="MyBatis3">
+    <context id="DB2Tables" targetRuntime="MyBatis3Simple">
         <!-- 防止生成重复代码 -->
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
 
@@ -55,6 +55,6 @@
         </javaClientGenerator>
 
         <!-- 表名和对应实体类-->
-        <table tableName="tb_user" domainObjectName="User"/>
+        <table tableName="tb_order_0" domainObjectName="Order"/>
     </context>
 </generatorConfiguration>

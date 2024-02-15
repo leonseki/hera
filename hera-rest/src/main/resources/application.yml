@@ -5,7 +5,7 @@ spring:
   datasource:
     username: root
     password: Dear@123456!
-    url: jdbc:mysql://192.168.0.200/hera-admin
+    url: jdbc:mysql://192.168.0.200/hera
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
