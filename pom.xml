@@ -19,6 +19,7 @@
         <module>hera-dao</module>
         <module>hera-service</module>
         <module>hera-common</module>
+        <module>hera-util</module>
     </modules>
     <properties>
         <java.version>21</java.version>
@@ -58,6 +59,14 @@
                 <artifactId>fastjson</artifactId>
                 <version>1.2.61</version>
             </dependency>
+
+            <!-- druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
