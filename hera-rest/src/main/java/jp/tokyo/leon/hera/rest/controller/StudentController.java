@@ -2,6 +2,7 @@ package jp.tokyo.leon.hera.rest.controller;
 
 import jp.tokyo.leon.hera.util.CsvFileTypeHandler;
 import jp.tokyo.leon.hera.util.data.CsvData;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.*;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author leon
@@ -21,11 +24,14 @@ import java.io.InputStream;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
+
+    private final CsvFileTypeHandler csvFileTypeHandler = new CsvFileTypeHandler();
+
     @GetMapping("/download-csv")
     public ResponseEntity<InputStreamResource> downloadCsv() {
 
 
-        String csvContent = new CsvFileTypeHandler().transferFileType(CsvData.STUDENT_INFO);
+        String csvContent = csvFileTypeHandler.transferFileType(CsvData.STUDENT_INFO);
         String data = CsvData.STUDENT_INFO_TITLE + "\n" + csvContent;
 
         byte[] csvBytes = data.getBytes();
@@ -40,4 +46,39 @@ public class StudentController {
 
         return new ResponseEntity<>(inputStreamResource, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/download-zip")
+    public ResponseEntity<InputStreamResource> downloadZip() throws IOException {
+
+        byte[] data1 = (CsvData.STUDENT_INFO_TITLE + "\n" + csvFileTypeHandler.transferFileType(CsvData.STUDENT_INFO)).getBytes();
+
+        byte[] zipBytes = createZipFile(data1, data1);
+
+        InputStream inputStream = new ByteArrayInputStream(zipBytes);
+        InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "data.zip");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(inputStreamResource);
+    }
+
+    private byte[] createZipFile(byte[]... data) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
+            for (int i = 0; i < data.length; i++) {
+                String fileName = "data" + (i + 1) + ".csv";
+                byte[] csvBytes = data[i];
+                zipOutputStream.putNextEntry(new ZipEntry(fileName));
+                zipOutputStream.write(csvBytes, 0, csvBytes.length);
+                zipOutputStream.closeEntry();
+            }
+        }
+        return byteArrayOutputStream.toByteArray();
+    }
+
+
 }
