@@ -13,6 +13,8 @@ public class SqlEntity {
 
     private String table;
 
+    private boolean ddl;
+
     private EventTypeEnum eventType;
 
     private String rowSql;
