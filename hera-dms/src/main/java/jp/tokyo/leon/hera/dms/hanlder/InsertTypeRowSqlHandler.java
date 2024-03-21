@@ -40,8 +40,4 @@ public class InsertTypeRowSqlHandler implements RowSqlHandler{
         System.out.println(sqlEntity);
     }
 
-    @Override
-    public void executeSql(SqlEntity<Object> sqlEntity) {
-        
-    }
 }

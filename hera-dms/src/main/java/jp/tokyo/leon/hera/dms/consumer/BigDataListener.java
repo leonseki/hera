@@ -1,5 +1,6 @@
 package jp.tokyo.leon.hera.dms.consumer;
 
+import jp.tokyo.leon.hera.dms.entity.SqlEntity;
 import jp.tokyo.leon.hera.dms.processor.SqlProcessor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -17,6 +18,8 @@ public class BigDataListener {
 
     private final SqlProcessor sqlProcessor;
 
+
+
     @Autowired
     public BigDataListener(SqlProcessor sqlProcessor) {
         this.sqlProcessor = sqlProcessor;
@@ -28,6 +31,7 @@ public class BigDataListener {
      */
     @KafkaListener(topics = {"canal"})
     public void consumer(ConsumerRecord<?, ?> consumerRecord) {
-        sqlProcessor.parseSql(consumerRecord.value().toString());
+        SqlEntity<Object> objectSqlEntity = sqlProcessor.parseSql(consumerRecord.value().toString());
+        sqlProcessor.executeSql(objectSqlEntity);
     }
 }

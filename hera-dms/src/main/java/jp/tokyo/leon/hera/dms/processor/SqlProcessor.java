@@ -7,5 +7,7 @@ import jp.tokyo.leon.hera.dms.entity.SqlEntity;
  */
 public abstract class SqlProcessor {
 
-   public abstract SqlEntity parseSql(String sql) throws RuntimeException;
+   public abstract SqlEntity<Object> parseSql(String sql) throws RuntimeException;
+
+   public abstract void executeSql(SqlEntity<Object> sqlEntity);
 }

@@ -10,5 +10,4 @@ import jp.tokyo.leon.hera.dms.entity.SqlEntity;
 public interface RowSqlHandler {
     void parseRowSql(SqlEntity<Object> sqlEntity, JSONObject jsonObject);
 
-    void executeSql(SqlEntity<Object> sqlEntity);
 }

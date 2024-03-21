@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import jp.tokyo.leon.hera.dms.entity.SqlEntity;
 import jp.tokyo.leon.hera.dms.enums.EventTypeEnum;
+import jp.tokyo.leon.hera.dms.executor.SqlExecutor;
 import jp.tokyo.leon.hera.dms.hanlder.RowSqlHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,9 +20,12 @@ public class CanalSqlProcessor extends SqlProcessor{
 
     private final List<RowSqlHandler> handlers;
 
+    private final List<SqlExecutor> executors;
+
     @Autowired
-    public CanalSqlProcessor(List<RowSqlHandler> handlers) {
+    public CanalSqlProcessor(List<RowSqlHandler> handlers, List<SqlExecutor> executors) {
         this.handlers = handlers;
+        this.executors = executors;
     }
 
     @Override
@@ -53,6 +57,13 @@ public class CanalSqlProcessor extends SqlProcessor{
         }
 
         return sqlEntity;
+    }
+
+    @Override
+    public void executeSql(SqlEntity<Object> sqlEntity) {
+        for (SqlExecutor executor : executors) {
+            executor.execute(sqlEntity);
+        }
     }
 
 }
