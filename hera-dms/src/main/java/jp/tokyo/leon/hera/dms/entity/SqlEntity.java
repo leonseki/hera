@@ -7,7 +7,7 @@ import lombok.Data;
  * @author longtao.guan
  */
 @Data
-public class SqlEntity {
+public class SqlEntity<T> {
 
     private String schema;
 
@@ -18,4 +18,6 @@ public class SqlEntity {
     private EventTypeEnum eventType;
 
     private String rowSql;
+
+    private T entity;
 }

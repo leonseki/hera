@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.tokyo.leon.hera.dao.mapper.UserBillMapper">
+    <resultMap id="BaseResultMap" type="jp.tokyo.leon.hera.dao.entity.UserBill">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="user_id" jdbcType="BIGINT" property="userId" />
+        <result column="amount" jdbcType="BIGINT" property="amount" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    </resultMap>
+
+    <insert id="insert" parameterType="jp.tokyo.leon.hera.dao.entity.UserBill">
+        insert into tb_order (id, user_id, amount,
+                              create_time, modify_time)
+        values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{amount,jdbcType=BIGINT},
+                #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+    </insert>
+
+</mapper>

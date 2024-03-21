@@ -4,17 +4,29 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import jp.tokyo.leon.hera.dms.entity.SqlEntity;
 import jp.tokyo.leon.hera.dms.enums.EventTypeEnum;
+import jp.tokyo.leon.hera.dms.hanlder.RowSqlHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * @author longtao.guan
  */
 @Component
 public class CanalSqlProcessor extends SqlProcessor{
+
+    private final List<RowSqlHandler> handlers;
+
+    @Autowired
+    public CanalSqlProcessor(List<RowSqlHandler> handlers) {
+        this.handlers = handlers;
+    }
+
     @Override
-    public SqlEntity parseSql(String originData) throws RuntimeException{
-        boolean ddl = false;
+    public SqlEntity<Object> parseSql(String originData) throws RuntimeException{
+        boolean ddl;
         JSONObject sqlObject = JSON.parseObject(originData);
         String schema = sqlObject.getString("database");
         if (!StringUtils.hasLength(schema)) {
@@ -30,13 +42,15 @@ public class CanalSqlProcessor extends SqlProcessor{
         if (!StringUtils.hasLength(eventType)) {
             throw new RuntimeException("parse sql error, can not find sql type.");
         }
-        SqlEntity sqlEntity = new SqlEntity();
+        SqlEntity<Object> sqlEntity = new SqlEntity<>();
         sqlEntity.setSchema(schema);
         sqlEntity.setTable(table);
         sqlEntity.setEventType(EventTypeEnum.valueOf(eventType));
         sqlEntity.setDdl(ddl);
 
-
+        for (RowSqlHandler sqlHandler : handlers) {
+            sqlHandler.parseRowSql(sqlEntity, sqlObject);
+        }
 
         return sqlEntity;
     }
