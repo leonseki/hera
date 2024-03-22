@@ -2,6 +2,7 @@ package jp.tokyo.leon.hera.dms.processor;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import jp.tokyo.leon.hera.common.exception.CanalProcessException;
 import jp.tokyo.leon.hera.dms.entity.SqlEntity;
 import jp.tokyo.leon.hera.dms.enums.EventTypeEnum;
 import jp.tokyo.leon.hera.dms.executor.SqlExecutor;
@@ -17,9 +18,7 @@ import java.util.List;
  */
 @Component
 public class CanalSqlProcessor extends SqlProcessor{
-
     private final List<RowSqlHandler> handlers;
-
     private final List<SqlExecutor> executors;
 
     @Autowired
@@ -34,17 +33,17 @@ public class CanalSqlProcessor extends SqlProcessor{
         JSONObject sqlObject = JSON.parseObject(originData);
         String schema = sqlObject.getString("database");
         if (!StringUtils.hasLength(schema)) {
-            throw new RuntimeException("parse sql error, can not find schema.");
+            throw new CanalProcessException("parse sql error, can not find schema.");
         }
         String table = sqlObject.getString("table");
         if (!StringUtils.hasLength(table)) {
-            throw new RuntimeException("parse sql error, can not find table.");
+            throw new CanalProcessException("parse sql error, can not find table.");
         }
         String isDdl = sqlObject.getString("isDdl");
         ddl = Boolean.getBoolean(isDdl);
         String eventType = sqlObject.getString("type");
         if (!StringUtils.hasLength(eventType)) {
-            throw new RuntimeException("parse sql error, can not find sql type.");
+            throw new CanalProcessException("parse sql error, can not find sql type.");
         }
         SqlEntity<Object> sqlEntity = new SqlEntity<>();
         sqlEntity.setSchema(schema);
@@ -65,5 +64,4 @@ public class CanalSqlProcessor extends SqlProcessor{
             executor.execute(sqlEntity);
         }
     }
-
 }

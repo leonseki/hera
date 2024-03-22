@@ -20,6 +20,8 @@ public class UserBill {
 
     private Long brokerId;
 
+    private Long currencyId;
+
     private Byte type;
 
     private BigDecimal size;

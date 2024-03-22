@@ -43,6 +43,12 @@
             <artifactId>hera-dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>jp.tokyo.leon</groupId>
+            <artifactId>hera-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

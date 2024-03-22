@@ -4,16 +4,44 @@
     <resultMap id="BaseResultMap" type="jp.tokyo.leon.hera.dao.entity.UserBill">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="user_id" jdbcType="BIGINT" property="userId" />
-        <result column="amount" jdbcType="BIGINT" property="amount" />
+        <result column="broker_id" jdbcType="BIGINT" property="brokerId" />
+        <result column="currency_id" jdbcType="BIGINT" property="currencyId" />
+        <result column="type" jdbcType="TINYINT" property="type" />
+        <result column="size" jdbcType="DECIMAL" property="size" />
+        <result column="before_balance" jdbcType="DECIMAL" property="beforeBalance" />
+        <result column="after_balance" jdbcType="DECIMAL" property="afterBalance" />
+        <result column="fee" jdbcType="DECIMAL" property="fee" />
+        <result column="refer_id" jdbcType="BIGINT" property="referId" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     </resultMap>
 
     <insert id="insert" parameterType="jp.tokyo.leon.hera.dao.entity.UserBill">
-        insert into tb_order (id, user_id, amount,
-                              create_time, modify_time)
-        values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{amount,jdbcType=BIGINT},
-                #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+        insert into user_bill (id, user_id, broker_id, currency_id, type, size, before_balance, after_balance,
+        fee, refer_id, create_time, modify_time)
+
+        values
+
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.userId,jdbcType=BIGINT}, #{item.brokerId,jdbcType=BIGINT},#{item.currencyId,jdbcType=BIGINT},
+            #{item.type},#{item.size,jdbcType=DECIMAL},#{item.beforeBalance,jdbcType=DECIMAL},
+            #{item.afterBalance,jdbcType=DECIMAL}, #{item.fee,jdbcType=DECIMAL}, #{item.referId,jdbcType=BIGINT},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.modifyTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+
     </insert>
+
+    <update id="update" parameterType="jp.tokyo.leon.hera.dao.entity.UserBill">
+
+        <foreach collection="list" item="item" separator=";">
+            update user_bill set user_id = #{item.userId,jdbcType=BIGINT}, broker_id = #{item.brokerId,jdbcType=BIGINT}, currency_id = #{item.currencyId,jdbcType=BIGINT},
+            type = #{item.type}, size = #{item.size,jdbcType=DECIMAL}, before_balance = #{item.beforeBalance,jdbcType=DECIMAL},
+            after_balance = #{item.afterBalance,jdbcType=DECIMAL}, fee = #{item.fee,jdbcType=DECIMAL}, refer_id = #{item.referId,jdbcType=BIGINT},
+            create_time = #{item.createTime,jdbcType=TIMESTAMP}, modify_time = #{item.modifyTime,jdbcType=TIMESTAMP}
+            where id = #{item.id,jdbcType=BIGINT}
+        </foreach>
+
+    </update>
 
 </mapper>

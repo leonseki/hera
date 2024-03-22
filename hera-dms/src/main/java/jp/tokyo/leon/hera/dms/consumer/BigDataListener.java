@@ -15,10 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BigDataListener {
     private static final Logger log = LoggerFactory.getLogger(BigDataListener.class);
-
     private final SqlProcessor sqlProcessor;
-
-
 
     @Autowired
     public BigDataListener(SqlProcessor sqlProcessor) {
@@ -31,6 +28,7 @@ public class BigDataListener {
      */
     @KafkaListener(topics = {"canal"})
     public void consumer(ConsumerRecord<?, ?> consumerRecord) {
+        log.info("current kafka message's offset is {}", consumerRecord.offset());
         SqlEntity<Object> objectSqlEntity = sqlProcessor.parseSql(consumerRecord.value().toString());
         sqlProcessor.executeSql(objectSqlEntity);
     }

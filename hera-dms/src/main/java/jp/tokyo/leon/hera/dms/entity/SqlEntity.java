@@ -3,6 +3,8 @@ package jp.tokyo.leon.hera.dms.entity;
 import jp.tokyo.leon.hera.dms.enums.EventTypeEnum;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author longtao.guan
  */
@@ -19,5 +21,5 @@ public class SqlEntity<T> {
 
     private String rowSql;
 
-    private T entity;
+    private List<T> entity;
 }

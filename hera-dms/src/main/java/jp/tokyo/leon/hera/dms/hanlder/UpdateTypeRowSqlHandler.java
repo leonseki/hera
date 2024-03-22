@@ -3,19 +3,16 @@ package jp.tokyo.leon.hera.dms.hanlder;
 import jp.tokyo.leon.hera.dms.entity.SqlEntity;
 import jp.tokyo.leon.hera.dms.enums.EventTypeEnum;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
- * @author leon
- * @date 2024/3/20 10:35
+ * @author longtao.guan
  */
-@Component
-@Order(1)
-public class InsertTypeRowSqlHandler extends AbstractRowSqlHandler{
-
+@Service
+@Order(2)
+public class UpdateTypeRowSqlHandler extends AbstractRowSqlHandler{
     @Override
     boolean filterEventType(SqlEntity<Object> sqlEntity) {
-        return sqlEntity.getEventType() == EventTypeEnum.INSERT;
+        return sqlEntity.getEventType() == EventTypeEnum.UPDATE;
     }
-
 }
