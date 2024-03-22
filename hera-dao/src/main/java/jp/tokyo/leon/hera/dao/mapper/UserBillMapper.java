@@ -15,4 +15,7 @@ public interface UserBillMapper extends BaseMapper{
 
     @Override
     int update(List<Object> entities);
+
+    @Override
+    void alter(String rowSql);
 }

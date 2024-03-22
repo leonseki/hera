@@ -14,16 +14,14 @@ public class CanalProcessException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = -6495138957558478969L;
 
-    private final int code;
+    private int code;
 
     public CanalProcessException() {
         super();
-        this.code = -1;
     }
 
     public CanalProcessException(String message) {
         super(message);
-        this.code = -1;
     }
 
     public CanalProcessException(CanalErrorCode errorCode) {
@@ -33,6 +31,5 @@ public class CanalProcessException extends RuntimeException{
 
     public CanalProcessException(CanalErrorCode errorCode, Throwable cause) {
         super(errorCode.getMessage(), cause);
-        this.code = -1;
     }
 }

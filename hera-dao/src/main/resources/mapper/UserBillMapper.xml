@@ -44,4 +44,8 @@
 
     </update>
 
+    <update id="update" parameterType="java.lang.String">
+        ${sql}
+    </update>
+
 </mapper>

@@ -9,4 +9,6 @@ public interface BaseMapper {
     int insert(List<Object> entities);
 
     int update(List<Object> entities);
+
+    void alter(String rowSql);
 }
