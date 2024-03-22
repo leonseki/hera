@@ -19,6 +19,8 @@ public class SqlEntity<T> {
 
     private EventTypeEnum eventType;
 
+    private String originSqlString;
+
     private String rowSql;
 
     private List<T> entity;

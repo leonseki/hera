@@ -44,7 +44,7 @@
 
     </update>
 
-    <update id="update" parameterType="java.lang.String">
+    <update id="alter" parameterType="java.lang.String">
         ${sql}
     </update>
 

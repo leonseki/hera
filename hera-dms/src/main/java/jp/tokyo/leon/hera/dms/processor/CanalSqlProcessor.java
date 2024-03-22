@@ -45,11 +45,13 @@ public class CanalSqlProcessor extends SqlProcessor{
         if (!StringUtils.hasLength(eventType)) {
             throw new CanalProcessException("parse sql error, can not find sql type.");
         }
+        String originSqlString = sqlObject.getString("sql");
         SqlEntity<Object> sqlEntity = new SqlEntity<>();
         sqlEntity.setSchema(schema);
         sqlEntity.setTable(table);
         sqlEntity.setEventType(EventTypeEnum.valueOf(eventType));
         sqlEntity.setDdl(ddl);
+        sqlEntity.setOriginSqlString(originSqlString);
 
         for (RowSqlHandler sqlHandler : handlers) {
             sqlHandler.parseRowSql(sqlEntity, sqlObject);

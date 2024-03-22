@@ -24,4 +24,10 @@ public class CanalUtils {
         return  Character.toLowerCase(mapperNameTmp.charAt(0)) + mapperNameTmp.substring(1);
 
     }
+
+    public static String removeComment(String origin) {
+        String pattern = "/\\*.*?\\*/"; // 匹配 /* 开始的注释块
+        String result = origin.replaceAll(pattern, "");
+        return result.trim();
+    }
 }
