@@ -29,7 +29,6 @@ public class BigDataListener {
     @KafkaListener(topics = {"canal"})
     public void consumer(ConsumerRecord<?, ?> consumerRecord) {
         log.info("current kafka message's offset is {}", consumerRecord.offset());
-        System.out.println(consumerRecord);
         SqlEntity<Object> objectSqlEntity = sqlProcessor.parseSql(consumerRecord.value().toString());
         sqlProcessor.executeSql(objectSqlEntity);
     }

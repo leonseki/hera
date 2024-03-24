@@ -1,5 +1,8 @@
 package jp.tokyo.leon.hera.rest.controller;
 
+import jp.tokyo.leon.hera.common.api.ResponseResult;
+import jp.tokyo.leon.hera.dao.entity.jpa.Student;
+import jp.tokyo.leon.hera.service.StudentService;
 import jp.tokyo.leon.hera.util.CsvFileTypeHandler;
 import jp.tokyo.leon.hera.util.data.CsvData;
 import org.springframework.core.io.ByteArrayResource;
@@ -10,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
@@ -26,6 +30,18 @@ import java.util.zip.ZipOutputStream;
 public class StudentController {
 
     private final CsvFileTypeHandler csvFileTypeHandler = new CsvFileTypeHandler();
+
+    private final StudentService studentService;
+
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
+    @GetMapping("/get-by-name")
+    public ResponseResult<Student> getByName(@RequestParam(name = "name") String name) {
+        Student student = studentService.findByName(name);
+        return ResponseResult.ok(student);
+    }
 
     @GetMapping("/download-csv")
     public ResponseEntity<InputStreamResource> downloadCsv() {

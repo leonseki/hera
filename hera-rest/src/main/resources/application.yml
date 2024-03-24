@@ -5,7 +5,13 @@ spring:
   datasource:
     username: root
     password: 71114411
-    url: jdbc:mysql://192.168.0.200/hera
+    url: jdbc:mysql://localhost:3306/hera
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
+
+
